@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUS Farma Tech — Sklep maszyn rolniczych</title>
+<style>
+:root{--green:#1f7a3d;--dark:#12301d;--light:#f4f7f2;--accent:#f0b429;--text:#172018}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--light);color:var(--text)}
+header{background:linear-gradient(135deg,#102b18,#24733b);color:white;position:sticky;top:0;z-index:10;box-shadow:0 3px 14px #0003}
+.nav{max-width:1200px;margin:auto;padding:16px 20px;display:flex;align-items:center;gap:25px;justify-content:space-between}
+.logo{font-size:27px;font-weight:900;letter-spacing:.5px}.logo span{color:#f0b429}
+nav{display:flex;gap:18px}nav a{color:white;text-decoration:none;font-weight:700}
+.hero{max-width:1200px;margin:auto;padding:65px 20px 50px;display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}
+.hero h1{font-size:52px;margin:0 0 15px;color:var(--dark)}.hero h1 span{color:var(--green)}
+.hero p{font-size:19px;line-height:1.6}.hero-box{background:#dfe9dd;border-radius:24px;padding:35px;text-align:center;font-size:90px;box-shadow:0 12px 30px #173d2020}
+.btn{display:inline-block;background:var(--green);color:white;border:0;border-radius:10px;padding:13px 20px;font-weight:800;text-decoration:none;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+section{max-width:1200px;margin:auto;padding:35px 20px}.title{text-align:center;font-size:32px;margin-bottom:25px}
+.categories{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}.cat{background:white;border:2px solid #d7e2d5;padding:12px 18px;border-radius:30px;cursor:pointer;font-weight:700}.cat.active,.cat:hover{background:var(--green);color:white}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{background:white;border-radius:17px;overflow:hidden;box-shadow:0 5px 18px #00000012;border:1px solid #e1e8df;display:flex;flex-direction:column}.pic{height:150px;background:#e9efe7;display:flex;align-items:center;justify-content:center;font-size:65px}.card-body{padding:17px;display:flex;flex-direction:column;gap:8px;flex:1}.card h3{margin:0;font-size:19px}.price{font-size:22px;font-weight:900;color:var(--green);margin-top:auto}.small{color:#667066;font-size:14px}.card .btn{margin-top:7px;width:100%}
+.info{background:var(--dark);color:white;border-radius:22px;padding:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.info div{text-align:center}.info b{display:block;font-size:20px;margin-bottom:7px;color:#f0b429}
+.cart{position:fixed;right:20px;bottom:20px;background:var(--green);color:white;border-radius:50px;padding:15px 21px;font-weight:900;box-shadow:0 7px 20px #0004;cursor:pointer;z-index:20}
+footer{background:#102417;color:#dce8de;text-align:center;padding:35px 20px;margin-top:30px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modalbox{background:white;max-width:600px;width:100%;border-radius:20px;padding:25px;max-height:85vh;overflow:auto}.row{display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding:12px 0}.close{float:right;border:0;background:none;font-size:28px;cursor:pointer}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero h1{font-size:40px}.info{grid-template-columns:1fr}}
+@media(max-width:520px){.products{grid-template-columns:1fr}.nav nav{display:none}.hero{padding-top:35px}}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<div class="logo">PUS <span>FARMA TECH</span></div>
+<nav><a href="#sklep">Sklep</a><a href="#kategorie">Kategorie</a><a href="#kontakt">Kontakt</a></nav>
+</div>
+</header>
+
+<main>
+<div class="hero">
+<div>
+<h1>Maszyny dla <span>nowoczesnego gospodarstwa</span></h1>
+<p>Witamy w <b>PUS Farma Tech</b> — internetowym sklepie z maszynami, sprzętem i wyposażeniem rolniczym.</p>
+<a class="btn" href="#sklep">Przejdź do sklepu →</a>
+</div>
+<div class="hero-box">🚜</div>
+</div>
+
+<section id="kategorie">
+<h2 class="title">Kategorie</h2>
+<div class="categories">
+<button class="cat active" onclick="filterProducts('Wszystko',this)">Wszystko</button>
+<button class="cat" onclick="filterProducts('Ciągniki',this)">🚜 Ciągniki</button>
+<button class="cat" onclick="filterProducts('Kombajny',this)">🌾 Kombajny</button>
+<button class="cat" onclick="filterProducts('Uprawa',this)">🌱 Uprawa</button>
+<button class="cat" onclick="filterProducts('Transport',this)">🚛 Transport</button>
+<button class="cat" onclick="filterProducts('Ładowarki',this)">🏗️ Ładowarki</button>
+</div>
+</section>
+
+<section id="sklep">
+<h2 class="title">Polecane maszyny</h2>
+<div class="products" id="products"></div>
+</section>
+
+<section>
+<div class="info">
+<div><b>🚜 Duży wybór</b>Maszyny do każdego gospodarstwa</div>
+<div><b>⚙️ Fachowy sprzęt</b>Nowoczesne rozwiązania rolnicze</div>
+<div><b>📦 Szybka realizacja</b>Sprawna obsługa zamówień</div>
+</div>
+</section>
+</main>
+
+<div class="cart" onclick="openCart()">🛒 Koszyk (<span id="count">0</span>)</div>
+
+<div class="modal" id="modal">
+<div class="modalbox">
+<button class="close" onclick="closeCart()">×</button>
+<h2>Twój koszyk</h2>
+<div id="cartItems"></div>
+<h3>Razem: <span id="total">0</span> €</h3>
+<button class="btn" onclick="alert('To jest wersja demonstracyjna sklepu. Dodaj tutaj własny system zamówień.')">Zamów</button>
+</div>
+</div>
+
+<footer id="kontakt">
+<h2>PUS Farma Tech</h2>
+<p>Twój sklep z maszynami i wyposażeniem rolniczym.</p>
+<p>© 2026 PUS Farma Tech</p>
+</footer>
+
+<script>
+const products=[
+{name:"PUS Tractor 250",cat:"Ciągniki",icon:"🚜",price:89900,desc:"Mocny ciągnik do prac polowych."},
+{name:"PUS Tractor 150",cat:"Ciągniki",icon:"🚜",price:64900,desc:"Uniwersalny ciągnik gospodarstwa."},
+{name:"PUS Harvest 900",cat:"Kombajny",icon:"🌾",price:189000,desc:"Wydajny kombajn zbożowy."},
+{name:"PUS Harvest 600",cat:"Kombajny",icon:"🌾",price:124000,desc:"Kompaktowy kombajn do zbioru."},
+{name:"PUS Plow 5",cat:"Uprawa",icon:"🌱",price:12900,desc:"5-skibowy pług do ciężkiej pracy."},
+{name:"PUS Disc 600",cat:"Uprawa",icon:"🌱",price:21900,desc:"Agregat talerzowy 6 metrów."},
+{name:"PUS Trailer 24",cat:"Transport",icon:"🚛",price:28900,desc:"Przyczepa rolnicza 24 t."},
+{name:"PUS Loader X",cat:"Ładowarki",icon:"🏗️",price:45900,desc:"Ładowarka teleskopowa do gospodarstwa."}
+];
+let cart=[];
+function money(n){return n.toLocaleString("pl-PL")+" €"}
+function render(list=products){
+document.getElementById("products").innerHTML=list.map((p,i)=>`
+<div class="card"><div class="pic">${p.icon}</div><div class="card-body">
+<h3>${p.name}</h3><div class="small">${p.cat} • ${p.desc}</div>
+<div class="price">${money(p.price)}</div><button class="btn" onclick="add(${products.indexOf(p)})">Dodaj do koszyka</button>
+</div></div>`).join("");
+}
+function filterProducts(cat,el){
+document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));el.classList.add("active");
+render(cat==="Wszystko"?products:products.filter(p=>p.cat===cat));
+}
+function add(i){cart.push(products[i]);document.getElementById("count").textContent=cart.length}
+function openCart(){
+document.getElementById("modal").classList.add("open");
+let total=cart.reduce((s,p)=>s+p.price,0);
+document.getElementById("cartItems").innerHTML=cart.length?cart.map((p,i)=>`<div class="row"><span>${p.icon} ${p.name}</span><b>${money(p.price)}</b></div>`).join(""):"<p>Koszyk jest pusty.</p>";
+document.getElementById("total").textContent=money(total);
+}
+function closeCart(){document.getElementById("modal").classList.remove("open")}
+render();
+</script>
+</body>
+</html>
